@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}My Recipes - Snap2Dish{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-4xl font-bold text-gray-900 mb-2">My Recipe Collection</h1>
+    <p class="text-gray-600">All your discovered dishes in one place</p>
+</div>
+
+{% if recipes %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for recipe in recipes %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-1">
+                {% if recipe.image_path %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ recipe.image_path) }}" 
+                         alt="{{ recipe.dish_name }}"
+                         class="w-full h-48 object-cover">
+                {% else %}
+                    <div class="w-full h-48 bg-gradient-to-br from-orange-400 to-red-400 flex items-center justify-center">
+                        <i class="fas fa-utensils text-6xl text-white"></i>
+                    </div>
+                {% endif %}
+                <div class="p-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">{{ recipe.dish_name }}</h3>
+                    <p class="text-gray-600 mb-2">
+                        <i class="fas fa-globe mr-1"></i>{{ recipe.cuisine_type }}
+                    </p>
+                    <p class="text-sm text-gray-500 mb-4">
+                        <i class="far fa-clock mr-1"></i>{{ recipe.created_at.strftime('%b %d, %Y') }}
+                    </p>
+                    <div class="flex space-x-2">
+                        <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}" 
+                           class="flex-1 text-center bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                            View Recipe
+                        </a>
+                        <form action="{{ url_for('delete_recipe', recipe_id=recipe.id) }}" 
+                              method="POST" 
+                              onsubmit="return confirm('Are you sure?');"
+                              class="inline">
+                            <button type="submit" 
+                                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center py-12">
+        <div class="bg-white rounded-2xl shadow-xl p-12 max-w-2xl mx-auto">
+            <i class="fas fa-book-open text-6xl text-gray-400 mb-6"></i>
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">No Recipes Yet</h2>
+            <p class="text-gray-600 mb-8">
+                Start your culinary journey by uploading your first food photo!
+            </p>
+            <a href="{{ url_for('index') }}" 
+               class="inline-block bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-lg transition text-lg font-medium">
+                <i class="fas fa-camera mr-2"></i>Upload First Photo
+            </a>
+        </div>
+    </div>
+{% endif %}
+
+<div class="mt-8 text-center">
+    <a href="{{ url_for('index') }}" 
+       class="inline-block bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition">
+        <i class="fas fa-arrow-left mr-2"></i>Back to Home
+    </a>
+</div>
+{% endblock %}
