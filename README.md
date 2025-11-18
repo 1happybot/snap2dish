@@ -173,6 +173,15 @@ snap2dish/
 
 ## Contributing
 
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for detailed information on:
+
+- Development setup
+- Code style guidelines
+- Testing requirements
+- Pull request process
+- Bug reporting and feature requests
+
+Quick start:
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
